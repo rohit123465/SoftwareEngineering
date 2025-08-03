@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = 'css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = 'css/nav.css') }}"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <title>MarketAnalyzer</title>
+    <!-- meta -->
+    <meta
+      name="description"
+      content="MarketAnalyzer is a web app to analyze news articles on companies"
+    />
+
+    {% block head %} {% endblock %}
+  </head>
+
+  <body>
+    <nav class="container">
+      <div class="heading">
+        <h2><a href="/">MarketAnalyzer</a></h2>
+
+        {% if current_user.is_authenticated %}
+        <div class="search">
+          <div class="wrapper">
+            <input
+              id="search-box"
+              type="text"
+              placeholder="Search company..."
+            />
+            <button>
+              <img src="/static/images/search.svg" alt="Search" />
+            </button>
+          </div>
+          <div id="search-results"></div>
+        </div>
+        {% endif %}
+
+        <div class="heading-icons">
+          {% if current_user.is_authenticated %}
+          <a href="/notifications" class="notifications-button">
+            <button>
+              <img src="/static/images/bell.svg" alt="Notifications" />
+            </button>
+          </a>
+          <a href="/companies-following" title="Companies Following">
+            <button>
+              <img src="/static/images/buildings.svg" alt="Companies" />
+            </button>
+          </a>
+          {% endif %} {% if current_user.is_authenticated %}
+          <a href="/logout"
+            ><button>
+              <img src="/static/images/logout.svg" alt="Logout" /></button
+          ></a>
+          {% else %} {% if hide_login_button %}
+          <a href="/register"
+            ><button class="login-button">
+              <span>Register</span
+              ><img src="/static/images/login.svg" alt="Login" /></button
+          ></a>
+          {% else %}
+          <a href="/login"
+            ><button class="login-button">
+              <span>Login</span
+              ><img src="/static/images/login.svg" alt="Login" /></button
+          ></a>
+          {% endif %} {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% block body %} {% endblock %}
+  </body>
+  {% block script %} {% endblock %}
+  <script>
+    const searchBox = document.getElementById("search-box");
+    const searchResultsContainer = document.getElementById("search-results");
+    let delayTimer;
+    let searchResults = [];
+
+    searchBox.addEventListener("keyup", (e) => {
+      if (searchBox.value.length < 2) {
+        searchResultsContainer.style.display = "none";
+        return;
+      }
+      clearTimeout(delayTimer);
+      delayTimer = setTimeout(() => {
+        fetch(`/search?query=${searchBox.value}`)
+          .then((response) => response.json())
+          .then((data) => {
+            searchResults = data;
+            displaySearchResults();
+          });
+      }, 200);
+    });
+
+    function displaySearchResults() {
+      // Clear previous results
+      searchResultsContainer.innerHTML = "";
+
+      // Create HTML elements for each search result and append them to the container
+      searchResults.forEach((result) => {
+        const resultElement = document.createElement("div");
+        resultElement.classList.add("search-result");
+
+        const nameElement = document.createElement("span");
+        nameElement.textContent = result.name;
+
+        const symbolElement = document.createElement("span");
+        symbolElement.textContent = `${result.symbol}`;
+
+        const anchorElement = document.createElement("a");
+        anchorElement.href = `/company/${result.symbol}`;
+
+        resultElement.appendChild(nameElement);
+        resultElement.appendChild(symbolElement);
+        anchorElement.appendChild(resultElement);
+        searchResultsContainer.appendChild(anchorElement);
+      });
+      // Show the container
+      if (searchResults.length > 0) {
+        searchResultsContainer.style.display = "block";
+      }
+    }
+
+    // to toggle notifications dropdown
+    function toggleNotifications() {
+      var dropdown = document.querySelector(".notifications-dropdown");
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</html>
