@@ -1,0 +1,136 @@
+.main-content {
+  margin-top: 2rem;
+  display: flex;
+  gap: 2em;
+}
+
+.feed {
+  flex: 1;
+}
+
+.recommendations {
+  flex: 0.3;
+}
+
+.feed-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.feed-item {
+  padding: 1rem;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0px 0px #2b3faa;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.feed-item:hover {
+  box-shadow: 6px 6px 0px 0px #2b3faa;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.recommendation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.follow-button {
+  color: white;
+  background-color: var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+}
+
+.unfollow-button {
+  display: none;
+  border: 1px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+}
+
+.follow-button:hover {
+  background-color: #515fad;
+}
+
+.unfollow-button:hover {
+  background-color: #e3e7fd;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.filter-button {
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  background-color: #c3cbf7;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button:hover {
+  background-color: #a3abf7;
+}
+
+.feed-filter {
+  position: relative;
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 4rem;
+  right: 0;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.21);
+  display: none;
+}
+
+.filter-dropdown button {
+  background-color: var(--primary-color);
+  color: white !important;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.filter-dropdown button:hover {
+  background-color: #515fad;
+}
+
+.filter-dropdown--active {
+  display: block;
+}
+
+.filter-dropdown-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.filter-dropdown-container input,
+.filter-dropdown-container select {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #c2c2c2;
+  width: 200px;
+  margin-top: 0.2rem;
+}

@@ -1,0 +1,192 @@
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5em 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.hide_login_button {
+  opacity: 0;
+}
+
+.heading h2 a {
+  color: black;
+  text-decoration: none;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #ddd;
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+
+.wrapper input {
+  border: none;
+  background-color: transparent;
+  flex: 1; /* Takes up remaining space */
+  padding: 8px;
+  font-size: 1.03rem;
+  outline: none;
+}
+
+.wrapper button {
+  margin-left: 8px; /* Adds space between the input and button */
+  padding: 8px 16px;
+}
+
+.search {
+  position: relative;
+}
+
+#search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 10;
+}
+
+#search-results div {
+  padding: 10px 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+#search-results a {
+  text-decoration: none;
+  color: black;
+}
+
+#search-results div:hover {
+  background-color: #f0f0f0;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* company symbol */
+.search-result span:nth-child(2) {
+  font-weight: 600;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.heading-icons {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.heading-icons button {
+  background-color: #eee;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.heading-icons button:hover {
+  opacity: 0.6;
+}
+
+.login-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 4px !important;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  gap: 10px;
+  padding: 12px 24px;
+}
+
+/* notification button styles */
+.notifications-button {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notifications-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notifications-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px); /* Adjust as needed */
+  left: 0;
+  width: 200px; /* Adjust width as needed */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.notifications-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notifications-dropdown ul li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.notifications-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+.see-all-button {
+  display: block;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.see-all-button:hover {
+  background-color: #e8ebff;
+  /* color: white; */
+  /* transition: all 0.2s; */
+}
+
+/* notification button styles end */

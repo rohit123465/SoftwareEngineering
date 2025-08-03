@@ -1,0 +1,108 @@
+h3 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+}
+
+.article-title {
+  max-width: 55ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.article-link {
+  text-decoration: none;
+  color: black;
+}
+
+.article-score {
+  text-align: center;
+  padding: 4px 12px;
+  border-radius: 5px;
+}
+
+.article-score--bad {
+  background-color: #fe5353;
+}
+
+.article-score--good {
+  background-color: #53fe53;
+}
+
+.article-score--neutral {
+  background-color: #fefe53;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+tr {
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.company-header button {
+  color: white;
+  background-color: var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+}
+
+#unfollow-button {
+  display: none;
+  border: 1px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+#follow-button:hover {
+  border: 1px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+
+  transition: 0.2s;
+}
+
+#unfollow-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transition: 0.2s;
+}
+
+.scores div {
+  margin: 1rem 0;
+}
+
+.scores p {
+  font-size: 1.2rem;
+}
+
+.main {
+  font-size: 3rem;
+}
+
+.sub {
+  font-size: 1.2rem;
+  color: #a0a0a0;
+}

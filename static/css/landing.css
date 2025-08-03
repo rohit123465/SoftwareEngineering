@@ -1,0 +1,104 @@
+.left-div {
+  margin-left: 90px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  font-size: 25px;
+  max-width: 50%;
+}
+
+.landing-title {
+  font-size: 62px;
+  margin-bottom: 20px;
+}
+.landing-login {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color: initial;
+  appearance: none;
+  max-width: 130px;
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: block;
+
+  font-family: "Inter", sans-serif;
+
+  padding: 14px 30px;
+  border-radius: 7px;
+
+  border: solid 1.5px #2b3faa;
+  color: #2b3faa;
+  text-decoration: none;
+
+  background-color: rgb(255, 255, 255);
+}
+
+.landing-login:hover {
+  border: solid 1.5px #586cdc;
+  color: #586cdc;
+}
+
+.landing-container {
+  display: flex;
+  align-items: center;
+
+  height: 70vh;
+}
+
+.landing-container img {
+  height: min(100%, 600px);
+  object-fit: cover;
+}
+
+.graph-image {
+  width: 70%;
+}
+
+.button-div {
+  display: flex;
+}
+
+.landing-register {
+  appearance: none;
+
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color: initial;
+
+  font-size: 20px;
+  display: block;
+  margin-left: 18px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: "Inter", sans-serif;
+  width: 60%;
+  padding: 14px 30px;
+  border-radius: 7px;
+  color: rgb(236, 236, 236);
+  max-width: 500px;
+  text-decoration: none;
+
+  background-color: #2b3faa;
+}
+
+.landing-register:hover {
+  background-color: #3145b6;
+}
+
+.graph-image {
+  margin: 20px;
+  width: 40%;
+}
+
+.landing-link {
+  max-width: 500px;
+}

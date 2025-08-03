@@ -1,0 +1,148 @@
+body{
+  font-family: "Inter", sans-serif;
+  
+  margin: 0;
+  padding: 0;
+
+  font-size: 62.5%;
+
+
+  
+}
+h2{
+  position: absolute;
+  top: 10px;
+  
+}
+
+h3{
+  font-size: 2.3em;
+ 
+ 
+}
+
+#left-half {
+  width: 50%;
+  position: absolute;
+  left: 0px;
+  height: 100%;
+
+ 
+  
+}
+
+
+#right-half-login{
+  background: url(../graph-login.jpg);
+  width: 50%;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  background-size: cover;
+}
+
+#right-half-register{
+  background: url(../coins-register.jpg);
+  width: 50%;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  background-size: cover;
+}
+
+#enter-details{
+  color:#475467;
+  margin-top: -13px;
+  font-size: 1.4em;
+  margin-bottom: 30px;
+  width: 60%;
+}
+
+
+.login-wrapper {
+  margin-top: 0px;
+  margin-left: 15%;
+  height:100%;  
+
+ 
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-evenly; 
+
+
+
+  
+  box-sizing: border-box;  
+}
+
+.error_msg{
+  color: rgb(236, 0, 0);
+  width: 60%;
+  font-size: 1.4em;
+  margin-top: -10px;
+  margin-bottom: 20px;
+
+}
+.login input[type="text"],
+.login input[type="date"],
+.login input[type="time"],
+.login input[type="number"],
+.login input[type="password"],
+.login input[type="email"] {
+  padding: 7px; 
+  font-size: 1.5em;
+  display: block; 
+  margin-top: 7px;
+  margin-bottom: 20px; 
+  font-family: "Inter", sans-serif;
+  width: 60%;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1.3px solid #d9d9d9;
+  
+} 
+
+
+.login input[type="submit"],
+.login button {
+  appearance: none;
+
+  padding: 7px; 
+  font-size: 1.5em;
+  display: block; 
+  margin-top: 30px;
+  margin-bottom: 20px; 
+  font-family: "Inter", sans-serif;
+  width: 60%;
+  padding: 10px 10px;
+  border-radius: 7px;
+  border: none;
+  color: rgb(236, 236, 236);
+  
+ 
+  background-color: #2B3FAA;
+  
+}
+
+.login input[type="submit"]:hover,
+.login button:hover {
+  background-color: #3145b6;
+}  
+
+label{
+  font-size: 1.3em;
+}
+
+.switch-page-wrapper{
+  width: 60%;
+}
+
+.switch-page{
+  text-align: center;
+  color: rgb(65, 65, 65);
+  font-size: 1.2em;
+} 
+
