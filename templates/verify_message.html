@@ -1,0 +1,33 @@
+{% block head %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css')}}"
+/>
+
+{% endblock %} {% block body %}
+
+<div id="right-half-register"></div>
+
+<div id="left-half">
+  <div class="login-wrapper">
+    <h2 id="title">
+      <a href="/" style="color: black; text-decoration: none">
+        MarketAnalyzer
+      </a>
+    </h2>
+    <div class="login">
+      <h3>Verify Your Email</h3>
+      <p id="enter-details">
+        We have sent you an email to the address you have entered. Please enter
+        the code contained in the email to verify your email address.
+      </p>
+      <form action="/check_email_code" method="post">
+        <label>Code:</label><input name="code" required type="text" />
+        <input type="hidden" value="{{email}}" name="email" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

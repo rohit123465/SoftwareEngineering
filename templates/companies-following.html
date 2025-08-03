@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/index.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/companies-following.css') }}"
+/>
+{% endblock %} {% block body %}
+
+<div class="big-wrapper container">
+  <h3>Companies you follow</h3>
+  <div class="following-wrapper">
+    {% for company in companies %}
+    <div class="company-followed" data-company-symbol="{{ company.symbol }}">
+      <a
+        style="color: black; text-decoration: none"
+        href="/company/{{company.symbol}}"
+      >
+        {{ company.name }}
+        <span style="font-weight: 500">({{ company.symbol }})</span>
+      </a>
+      <button
+        class="unfollow-button"
+        data-company-symbol="{{ company.symbol }}"
+      >
+        <strong>Unfollow</strong>
+      </button>
+    </div>
+    {% else %}
+    <p style="margin-top: 1rem">Start following some companies!</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  const unfollowButtons = document.querySelectorAll(".unfollow-button");
+  unfollowButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const companySymbol = e.currentTarget.dataset.companySymbol;
+
+      fetch("/unfollow", {
+        method: "POST",
+        body: JSON.stringify({ symbol: companySymbol }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          // remove the company from the list
+          const companyDiv = document.querySelector(
+            `.company-followed[data-company-symbol="${companySymbol}"]`
+          );
+          companyDiv.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,319 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/index.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/feed.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/landing.css') }}"
+/>
+{% endblock %} {% block body %} {% if current_user.is_authenticated %}
+<div class="container special-container">
+  <main class="main-content">
+    <div class="feed">
+      <div class="feed-header">
+        <h3>Feed</h3>
+        <div class="feed-filter">
+          <button class="filter-button">
+            <img src="/static/images/filter.svg" alt="funnel" />
+            <span>Filter</span>
+          </button>
+          <div class="filter-dropdown">
+            <form action="/" method="POST">
+              <div class="filter-dropdown-container">
+                <div class="filter-dropdown-item">
+                  <label for="filter-score">Minimum score</label>
+                  <br />
+                  <input
+                    value="0"
+                    type="number"
+                    id="filter-score"
+                    name="filter-score"
+                    min="0"
+                    max="10"
+                  />
+                </div>
+
+                <div class="filter-dropdown-item">
+                  <label for="filter-date">Date</label>
+                  <br />
+                  <input type="date" id="filter-date" name="filter-date" />
+                </div>
+
+                <div class="filter-dropdown-item">
+                  <label for="filter-symbol">Symbol</label>
+                  <br />
+                  <input
+                    type="text"
+                    id="filter-symbol"
+                    name="filter-symbol"
+                    placeholder="AAPL"
+                  />
+                </div>
+
+                <div class="filter-dropdown-item">
+                  <label for="filter-location">Location</label>
+                  <br />
+                  <select id="filter-location" name="filter-location">
+                    <option value="all">All</option>
+                    <option value="India">India</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="United States">United States</option>
+                  </select>
+                </div>
+
+                <div class="filter-dropdown-item">
+                  <label for="filter-industry">Industry</label>
+                  <br />
+                  <select id="filter-industry" name="filter-industry">
+                    <option value="All">All</option>
+                    <option value="Apparel Retail">Apparel Retail</option>
+                    <option value="Asset Management">Asset Management</option>
+                    <option value="Banks - Diversified">
+                      Banks - Diversified
+                    </option>
+                    <option value="Banks - Regional">Banks - Regional</option>
+                    <option value="Capital Markets">Capital Markets</option>
+                    <option value="Communication Equipment">
+                      Communication Equipment
+                    </option>
+                    <option value="Consumer Electronics">
+                      Consumer Electronics
+                    </option>
+                    <option value="Credit Services">Credit Services</option>
+                    <option value="Discount Stores">Discount Stores</option>
+                    <option value="Drug Manufacturers - General">
+                      Drug Manufacturers - General
+                    </option>
+                    <option value="Financial Data & Stock Exchanges">
+                      Financial Data & Stock Exchanges
+                    </option>
+                    <option value="Healthcare Plans">Healthcare Plans</option>
+                    <option value="Home Improvement Retail">
+                      Home Improvement Retail
+                    </option>
+                    <option value="Internet Content & Information">
+                      Internet Content & Information
+                    </option>
+                    <option value="Internet Retail">Internet Retail</option>
+                    <option value="Medical Devices">Medical Devices</option>
+                    <option value="Restaurants">Restaurants</option>
+                    <option value="Semiconductors">Semiconductors</option>
+                    <option value="Software - Infrastructure">
+                      Software - Infrastructure
+                    </option>
+                  </select>
+                </div>
+
+                <div class="filter-dropdown-item">
+                  <label for="filter-order">Order by</label>
+                  <br />
+                  <select id="filter-order" name="filter-order">
+                    <option value="score">Score</option>
+                    <option value="date">Date</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="filter-dropdown-item">
+                <button type="submit">
+                  <img src="/static/images/search-white.svg" alt="search" />
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="feed-items">
+        {% for post in feed %}
+        <a class="feed-item" href="{{ post.url }}" target="_blank">
+          <div>
+            <p><strong>{{ post.symbol }}</strong></p>
+            <span>{{ post.title }}</span>
+            {% if post.score > 7 %}
+            <p class="article-score article-score--good">{{ post.score }}</p>
+            {% elif post.score > 4 %}
+            <p class="article-score article-score--neutral">{{ post.score }}</p>
+            {% else %}
+            <p class="article-score article-score--bad">{{ post.score }}</p>
+            {% endif %}
+          </div>
+          <img src="/static/images/open.svg" alt="open link" />
+        </a>
+        {% endfor %}
+      </div>
+      {% if feed|length == 0 %}
+      <div class="no-feed">
+        <h3>No feed available</h3>
+        <p>Try following some companies to get a feed</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="recommendations">
+      <h3>Recommendations</h3>
+      <div class="recommendation-items">
+        {% for recommendation in recommendations %}
+        <div class="recommendation">
+          <a
+            style="text-decoration: none; color: black"
+            href="/company/{{ recommendation.symbol }}"
+            >{{ recommendation.name }} ({{ recommendation.symbol }})</a
+          >
+          <button
+            class="unfollow-button"
+            data-company-symbol="{{ recommendation.symbol }}"
+          >
+            Unfollow
+          </button>
+          <button
+            class="follow-button"
+            data-company-symbol="{{ recommendation.symbol }}"
+          >
+            Follow
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div>
+        <h3>Stock Market Information</h3>
+
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <div class="tradingview-widget-copyright">
+            <a
+              href="https://www.tradingview.com/"
+              rel="noopener nofollow"
+              target="_blank"
+              ><span class="blue-text"
+                >Track all markets on TradingView</span
+              ></a
+            >
+          </div>
+          <script
+            type="text/javascript"
+            src="https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js"
+            async
+          >
+              {
+              "colorTheme": "light",
+              "dateRange": "1D",
+              "exchange": "NASDAQ",
+              "showChart": true,
+              "locale": "en",
+              "largeChartUrl": "",
+              "isTransparent": false,
+              "showSymbolLogo": true,
+              "showFloatingTooltip": false,
+              "width": "400",
+              "height": "550",
+              "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
+              "plotLineColorFalling": "rgba(41, 98, 255, 1)",
+              "gridLineColor": "rgba(240, 243, 250, 0)",
+              "scaleFontColor": "rgba(106, 109, 120, 1)",
+              "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+              "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+              "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+              "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+              "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
+            }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+      </div>
+    </div>
+
+    <div class="toast-container">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div class="toast">
+        <span>{{ message }}</span>
+        <button onclick="dismissToast(this.parentElement)">&#10006;</button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+  </main>
+</div>
+{% else %}
+<div class="landing-container container">
+  <div class="left-div">
+    <h1 class="landing-title">Supercharge your financial decisions</h1>
+    <p class="landing-text">
+      A powerful, easy to use solution to track and manage data about the
+      businesses most important to you.
+    </p>
+    <div class="button-div">
+      <a class="landing-login" href="/login">Login</a>
+      <a class="landing-register" href="/register">Register</a>
+    </div>
+  </div>
+
+  <img class="graph-image" src="../static/graph-landing.bmp" />
+</div>
+{% endif %} {% endblock %} {% block script %}
+<script>
+  const followButtons = document.querySelectorAll(".follow-button");
+  const unfollowButtons = document.querySelectorAll(".unfollow-button");
+
+  followButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const companySymbol = e.target.dataset.companySymbol;
+      fetch("/follow", {
+        method: "POST",
+        body: JSON.stringify({ symbol: companySymbol }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          button.style.display = "none";
+          const unfollowButton = document.querySelector(
+            `.unfollow-button[data-company-symbol="${companySymbol}"]`
+          );
+          unfollowButton.style.display = "block";
+        }
+      });
+    });
+  });
+
+  unfollowButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const companySymbol = e.target.dataset.companySymbol;
+      fetch("/unfollow", {
+        method: "POST",
+        body: JSON.stringify({ symbol: companySymbol }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          button.style.display = "none";
+          const followButton = document.querySelector(
+            `.follow-button[data-company-symbol="${companySymbol}"]`
+          );
+          followButton.style.display = "block";
+        }
+      });
+    });
+  });
+
+  const toasts = document.querySelectorAll(".toast");
+
+  const dismissToast = (toast) => {
+    toast.style.display = "none";
+  };
+
+  const filterButton = document.querySelector(".filter-button");
+  const filterDropdown = document.querySelector(".filter-dropdown");
+
+  filterButton.addEventListener("click", () => {
+    filterDropdown.classList.toggle("filter-dropdown--active");
+  });
+</script>
+{% endblock %}

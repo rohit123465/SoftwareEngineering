@@ -1,0 +1,225 @@
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/company.css') }}"
+/>
+{% endblock %} {% block body %}
+<div class="container">
+  <div class="company-header">
+    <div>
+      <h2>{{ company.name }} ({{ company.symbol }})</h2>
+      <sub>{{ company.industry }}, {{ company.country }}</sub>
+    </div>
+
+    <button id="unfollow-button">Unfollow</button>
+    <button id="follow-button">Follow</button>
+  </div>
+
+  <div style="display: flex">
+    <div>
+      <div style="width: 300px">
+        <canvas id="pieChart"></canvas>
+      </div>
+
+      <div class="scores">
+        <div>
+          <p
+            title="How the company is currently performing based on latest article"
+          >
+            Most Recent Score
+          </p>
+          <span class="main">{{recent_score.recent}}</span>
+          {% if recent_score.percentage > 0 %}
+          <span class="sub" style="color: green"
+            >{{recent_score.percentage}}%</span
+          >
+          {% elif recent_score.percentage < 0 %}
+          <span class="sub" style="color: red"
+            >{{recent_score.percentage}}%</span
+          >
+          {% else %}
+          <span class="sub">{{recent_score.percentage}}</span>
+          {% endif %}
+        </div>
+
+        <div>
+          <p
+            title="How the company is performing compared to the industry average"
+          >
+            Industry Comparison
+          </p>
+          <span class="main">{{industry_average.company_average}}</span>
+          {% if industry_average.percentage > 0 %}
+          <span class="sub" style="color: green">
+            {{industry_average.percentage}}%
+          </span>
+          {% elif industry_average.percentage < 0 %}
+          <span class="sub" style="color: red"
+            >{{industry_average.percentage}}%</span
+          >
+          {% else %}
+          <span class="sub">{{industry_average.percentage}}%</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 550px; flex: 1">
+      <!-- TradingView Widget BEGIN -->
+      <div
+        class="tradingview-widget-container"
+        style="height: 100%; width: 100%"
+      >
+        <div
+          class="tradingview-widget-container__widget"
+          style="height: calc(100% - 32px); width: 100%"
+        ></div>
+        <div class="tradingview-widget-copyright">
+          <a
+            href="https://www.tradingview.com/"
+            rel="noopener nofollow"
+            target="_blank"
+            ><span class="blue-text">Track all markets on TradingView</span></a
+          >
+        </div>
+        <script
+          type="text/javascript"
+          src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+          async
+        >
+            {
+            "container_id": "analytics-platform-chart-demo",
+            "width": "100%",
+            "height": "100%",
+            "autosize": true,
+            "symbol": "{{ company_symbol }}",
+            "interval": "D",
+            "timezone": "exchange",
+            "theme": "light",
+            "style": "0",
+            "withdateranges": true,
+            "allow_symbol_change": false,
+            "save_image": false,
+            "details": true,
+            "hotlist": true,
+            "calendar": true
+          }
+        </script>
+      </div>
+      <!-- TradingView Widget END -->
+    </div>
+  </div>
+
+  <h3>Recent Articles</h3>
+  <table style="margin-bottom: 4rem">
+    <tr>
+      <th>Title</th>
+      <th>Published Date</th>
+      <th>Score</th>
+    </tr>
+    {% for article in articles %}
+    <tr>
+      <td>
+        <a
+          class="article-link"
+          style="display: flex; align-items: center"
+          href="{{ article.url }}"
+          target="_blank"
+          ><span class="article-title">{{ article.title }}</span>
+          <img src="/static/images/open.svg" alt="open link"
+        /></a>
+      </td>
+      <td class="article-date">{{ article.date }}</td>
+      {% if article.score > 7 %}
+      <td>
+        <span class="article-score article-score--good"
+          >{{ article.score }}</span
+        >
+      </td>
+      {% elif article.score > 4 %}
+      <td>
+        <span class="article-score article-score--neutral"
+          >{{ article.score }}</span
+        >
+      </td>
+      {% else %}
+      <td>
+        <span class="article-score article-score--bad"
+          >{{ article.score }}</span
+        >
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %} {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  if (`{{ is_following }}` === "True") {
+    document.getElementById("follow-button").style.display = "none";
+    document.getElementById("unfollow-button").style.display = "block";
+  } else {
+    document.getElementById("follow-button").style.display = "block";
+    document.getElementById("unfollow-button").style.display = "none";
+  }
+
+  const follow = () => {
+    fetch("/follow", {
+      method: "POST",
+      body: JSON.stringify({ symbol: "{{ company.symbol }}" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        followButton.style.display = "none";
+        unfollowButton.style.display = "block";
+      }
+    });
+  };
+  const followButton = document.getElementById("follow-button");
+  followButton.addEventListener("click", follow);
+
+  const unfollow = () => {
+    fetch("/unfollow", {
+      method: "POST",
+      body: JSON.stringify({ symbol: "{{ company.symbol }}" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        followButton.style.display = "block";
+        unfollowButton.style.display = "none";
+      }
+    });
+  };
+  const unfollowButton = document.getElementById("unfollow-button");
+  unfollowButton.addEventListener("click", unfollow);
+
+  const ctx = document.getElementById("pieChart");
+  new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Positive", "Neutral", "Negative"],
+      datasets: [
+        {
+          label: "Sentiment Analysis",
+          data: [
+            `{{ sentiment_analysis.positive }}`,
+            `{{ sentiment_analysis.neutral }}`,
+            `{{ sentiment_analysis.negative }}`,
+          ],
+          backgroundColor: [
+            "rgb(83, 254, 83)",
+            "rgb(254, 254, 83)",
+            "rgb(254, 83, 83)",
+          ],
+        },
+      ],
+    },
+  });
+</script>
+{% endblock %}

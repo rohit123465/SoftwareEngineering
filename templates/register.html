@@ -1,0 +1,52 @@
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+<div id = "right-half-register">
+</div>
+
+<div id = "left-half">
+    
+    <div class="login-wrapper">
+        <h2 id="title">MarketAnalyzer</h2>
+            <div class="login">
+                
+              
+                <h3>Create an account</h3>
+                <p id="enter-details">Please enter your details to get started!</p>
+
+           
+                {% if username_not_unique %}
+                <p class="error_msg">The username you entered is taken. Please choose another one.</p>
+                {% endif %}
+                {% if email_not_unique %}
+                <p class="error_msg">The email you entered is already associated with an account. Please select a new one.</p>
+                {% endif %}
+                {% if verification_fail %}
+                <p class="error_msg">The verification code you entered was incorrect. Please try again.</p>
+                {% endif %}
+                {% if confirm_password_fail %}
+                <p class="error_msg">The passwords you entered don't match. Please try again.</p>
+                {% endif %}
+                {% if password_strength_fail %}
+                <p class="error_msg">Passwords must contain at least 8 characters and have a mixture of numbers, uppercase letters, lowercase letters, and special characters (e.g. '*', '!', '$'). Please try again. </p>
+                {% endif %}
+                <form action="register_new_user" method="post">
+                    <label>Username*</label>
+                    <input name="username" placeholder="Enter your username" required type="text">
+                    <label>Email*</label>
+                    <input name="email" placeholder="Enter your email"  type="email">
+                    <label>Password*</label>
+                    <input name="password" placeholder="Create a password" required type="password">
+                    <label>Confirm Password*</label>
+                    <input name="confirm_password" placeholder="Re-type the same password" required type="password">
+                    <input type='submit' value="Create account">
+                    <div class="switch-page-wrapper"><p class="switch-page">Already have an account? <a href="/login">Login</a></p></div>
+                </form>
+               
+        </div>
+    </div>
+</div>
+{% endblock %}

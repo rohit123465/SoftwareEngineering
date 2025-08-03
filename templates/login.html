@@ -1,0 +1,29 @@
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login.css') }}">
+{% endblock %}
+{% block body %}
+
+<div id = "right-half-login">
+</div>
+<div id = left-half>
+    <div class="login-wrapper">
+        <h2 id="title">MarketAnalyzer</h2>
+
+        <div class="login">
+            <h3>Log in to your account</h3>
+            <p id="enter-details">Welcome back! Please enter your details.</p>
+            {% if login_fail %}
+            <p class="error_msg">Failed to login.</p>
+            {% endif %}
+            <form action="login" method="post">
+                <label>Username</label>
+                <input name="username" required type="text" placeholder="Enter your username">
+                <label>Password</label>
+                <input name="password" required type="password" placeholder="Enter your password">
+                <input type='submit' value="Submit">
+                <div class="switch-page-wrapper"><p class="switch-page">Don't have an account? <a href="/register">Sign up</a></p></div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
